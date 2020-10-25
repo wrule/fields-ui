@@ -1,0 +1,313 @@
+{
+  "desc": "shuji",
+  "type": "Object",
+  "fields": [
+    [
+      "extParams",
+      {
+        "desc": "extParams",
+        "type": "Object",
+        "fields": []
+      }
+    ],
+    [
+      "object",
+      {
+        "desc": "object",
+        "type": "Object",
+        "fields": [
+          [
+            "assignMachineType",
+            {
+              "desc": "assignMachineType",
+              "type": "String"
+            }
+          ],
+          [
+            "isStop",
+            {
+              "desc": "isStop",
+              "type": "Number"
+            }
+          ],
+          [
+            "isTemplate",
+            {
+              "desc": "isTemplate",
+              "type": "Number"
+            }
+          ],
+          [
+            "sceneMeta",
+            {
+              "desc": "sceneMeta",
+              "type": "Object",
+              "fields": [
+                [
+                  "alerts",
+                  {
+                    "desc": "alerts",
+                    "type": "Number"
+                  }
+                ],
+                [
+                  "curveDetail",
+                  {
+                    "desc": "curveDetail",
+                    "type": "String"
+                  }
+                ],
+                [
+                  "keyBusiness",
+                  {
+                    "desc": "keyBusiness",
+                    "type": "Boolean"
+                  }
+                ],
+                [
+                  "modifyTime",
+                  {
+                    "desc": "modifyTime",
+                    "type": "Number"
+                  }
+                ],
+                [
+                  "name",
+                  {
+                    "desc": "name",
+                    "type": "String"
+                  }
+                ],
+                [
+                  "reportCount",
+                  {
+                    "desc": "reportCount",
+                    "type": "Number"
+                  }
+                ],
+                [
+                  "runTime",
+                  {
+                    "desc": "runTime",
+                    "type": "Number"
+                  }
+                ],
+                [
+                  "strategyType",
+                  {
+                    "desc": "strategyType",
+                    "type": "String"
+                  }
+                ],
+                [
+                  "useScriptStrategy",
+                  {
+                    "desc": "useScriptStrategy",
+                    "type": "Boolean"
+                  }
+                ],
+                [
+                  "workspaceId",
+                  {
+                    "desc": "workspaceId",
+                    "type": "String"
+                  }
+                ]
+              ]
+            }
+          ],
+          [
+            "scriptConfs",
+            {
+              "desc": "scriptConfs",
+              "type": "Array",
+              "element": {
+                "desc": "scriptConfsAE",
+                "type": "Object",
+                "fields": [
+                  [
+                    "curves",
+                    {
+                      "desc": "curves",
+                      "type": "Object",
+                      "fields": [
+                        [
+                          "sumTime",
+                          {
+                            "desc": "sumTime",
+                            "type": "Number"
+                          }
+                        ],
+                        [
+                          "data",
+                          {
+                            "desc": "data",
+                            "type": "Array",
+                            "element": {
+                              "desc": "dataAE",
+                              "type": "Object",
+                              "fields": [
+                                [
+                                  "userNum",
+                                  {
+                                    "desc": "userNum",
+                                    "type": "Number"
+                                  }
+                                ],
+                                [
+                                  "period",
+                                  {
+                                    "desc": "period",
+                                    "type": "Number"
+                                  }
+                                ],
+                                [
+                                  "index",
+                                  {
+                                    "desc": "index",
+                                    "type": "Number"
+                                  }
+                                ]
+                              ]
+                            }
+                          }
+                        ],
+                        [
+                          "detail",
+                          {
+                            "desc": "detail",
+                            "type": "Array",
+                            "element": {
+                              "desc": "detailAE",
+                              "type": "Number"
+                            }
+                          }
+                        ],
+                        [
+                          "maxUser",
+                          {
+                            "desc": "maxUser",
+                            "type": "Number"
+                          }
+                        ]
+                      ]
+                    }
+                  ],
+                  [
+                    "id",
+                    {
+                      "desc": "id",
+                      "type": "String"
+                    }
+                  ],
+                  [
+                    "option",
+                    {
+                      "desc": "option",
+                      "type": "String"
+                    }
+                  ],
+                  [
+                    "percent",
+                    {
+                      "desc": "percent",
+                      "type": "Number"
+                    }
+                  ],
+                  [
+                    "runTime",
+                    {
+                      "desc": "runTime",
+                      "type": "Number"
+                    }
+                  ],
+                  [
+                    "runnable",
+                    {
+                      "desc": "runnable",
+                      "type": "Boolean"
+                    }
+                  ],
+                  [
+                    "sceneId",
+                    {
+                      "desc": "sceneId",
+                      "type": "String"
+                    }
+                  ],
+                  [
+                    "scriptId",
+                    {
+                      "desc": "scriptId",
+                      "type": "String"
+                    }
+                  ],
+                  [
+                    "scriptName",
+                    {
+                      "desc": "scriptName",
+                      "type": "String"
+                    }
+                  ],
+                  [
+                    "scriptType",
+                    {
+                      "desc": "scriptType",
+                      "type": "String"
+                    }
+                  ],
+                  [
+                    "threadGroupConfigs",
+                    {
+                      "desc": "threadGroupConfigs",
+                      "type": "String"
+                    }
+                  ],
+                  [
+                    "threadGroupType",
+                    {
+                      "desc": "threadGroupType",
+                      "type": "String"
+                    }
+                  ],
+                  [
+                    "tps",
+                    {
+                      "desc": "tps",
+                      "type": "Number"
+                    }
+                  ],
+                  [
+                    "users",
+                    {
+                      "desc": "users",
+                      "type": "Number"
+                    }
+                  ]
+                ]
+              }
+            }
+          ],
+          [
+            "strategies",
+            {
+              "desc": "strategies",
+              "type": "Array",
+              "element": {
+                "desc": "strategiesAE",
+                "type": "Unknow"
+              }
+            }
+          ]
+        ]
+      }
+    ],
+    [
+      "success",
+      {
+        "desc": "success",
+        "type": "Boolean"
+      }
+    ]
+  ]
+}
