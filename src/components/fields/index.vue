@@ -7,8 +7,8 @@
       :showHeader="showHeader"
       :columns="autoColumns"
       :dataSource="autoList">
-      <p slot="expandedRowRender" slot-scope="record">
-        <Field :showHeader="false" :field="record.struct" />
+      <p slot="expandedRowRender" slot-scope="row">
+        <Field :showHeader="false" :struct="row.struct" />
       </p>
     </a-table>
   </div>
@@ -19,49 +19,68 @@ import { Component, Vue, Prop } from 'vue-property-decorator';
 import { IJsObj } from './IJsObj';
 import testJson from './test.json';
 import { StructType } from './type';
+import { Struct } from '@wrule/shuji/dist/struct/index';
+import * as FromJS from '@wrule/shuji/dist/struct/fromJs';
+import { StructObject } from '@wrule/shuji/dist/struct/object';
+import { StructArray } from '@wrule/shuji/dist/struct/array';
+import { StructTuple } from '@wrule/shuji/dist/struct/tuple';
+import { StructUnion } from '@wrule/shuji/dist/struct/union';
 
 @Component({
   name: 'Field',
 })
 export default class Field extends Vue {
-  @Prop({ default() { return testJson; }}) private readonly field!: IJsObj;
+  @Prop({
+    default() {
+      return FromJS.FromJsHub(testJson as any)
+    }
+  }) private readonly struct!: Struct;
   @Prop({ default: true }) private readonly showHeader!: boolean;
 
-
   public get autoListObject() {
-    return this.field.fields?.map(([name, struct]) => ({
-      name,
-      type: struct.type.toLowerCase(),
+    const object = this.struct as StructObject;
+    return Array.from(object.Fields).map(([name, struct]) => ({
+      name: struct.Desc,
+      type: struct.TsName,
       struct,
     }));
   }
 
   public get autoListArray() {
-    return this.field.element ? [this.field.element] : [];
+    const array = this.struct as StructArray;
+    return [
+      {
+        name: array.ElementStruct.Desc,
+        type: array.ElementStruct.TsName,
+        struct: array.ElementStruct,
+      },
+    ];
   }
 
   public get autoListTuple() {
-    return this.field.elements?.map((struct, index) => ({
-      name: (index + 1).toString(),
-      type: struct.type.toLowerCase(),
+    const tuple = this.struct as StructTuple;
+    return tuple.ElementsStruct.map((struct) => ({
+      name: struct.Desc,
+      type: struct.TsName,
       struct,
     }));
   }
 
-  public get autoListUnoin() {
-    return this.field.members?.map((struct, index) => ({
-      name: (index + 1).toString(),
-      type: struct.type.toLowerCase(),
+  public get autoListUnion() {
+    const union = this.struct as StructUnion;
+    return union.Members.map((struct) => ({
+      name: struct.Desc,
+      type: struct.TsName,
       struct,
     }));
   }
 
   public get autoList() {
-    switch (this.field.type) {
+    switch (this.struct.Type) {
       case StructType.Object: return this.autoListObject;
       case StructType.Array: return this.autoListArray;
       case StructType.Tuple: return this.autoListTuple;
-      case StructType.Undefined: return this.autoListUnoin;
+      case StructType.Union: return this.autoListUnion;
       default: return [];
     }
   }
@@ -79,6 +98,11 @@ export default class Field extends Vue {
         dataIndex: 'type',
       },
       {
+        title: '备注',
+        key: 'remark',
+        dataIndex: 'remark',
+      },
+      {
         title: '操作',
         key: 'opts',
         dataIndex: 'opts',
@@ -92,6 +116,8 @@ export default class Field extends Vue {
 
 <style lang="scss" scoped>
 .com {
-
+  :global(.ant-table-body) {
+    margin: 0px 0px;
+  }
 }
 </style>
