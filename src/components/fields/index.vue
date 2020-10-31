@@ -1,6 +1,8 @@
 <template>
   <div class="com">
-    <XFuck />
+    <div style="margin-left: 40px;width: 600px">
+      <XFuck />
+    </div>
     <a-table
       bordered
       size="small"

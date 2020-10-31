@@ -1,0 +1,29 @@
+.table {
+  :global(.ant-table) {
+    border-radius: 0px;
+  }
+  :global(.ant-table-body) {
+    margin: 0px 0px!important;
+  }
+  td {
+    padding: 0px!important;
+    min-height: 38px;
+  }
+  :global(.ant-input) {
+    padding: 4px 7px;
+    border-radius: 0px;
+    border-color: rgba(0, 0, 0, 0);
+  }
+  :global(.ant-select) {
+    width: 100%;
+    :global(.ant-select-selection) {
+      border-radius: 0px;
+      :global(.ant-select-selection__rendered) {
+        margin-left: 7px;
+      }
+      &:not(:hover):not(:focus):not(:active) {
+        border-color: rgba(0, 0, 0, 0);
+      }
+    }
+  }
+}
