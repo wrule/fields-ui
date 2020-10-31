@@ -1,5 +1,6 @@
 <template>
   <div class="com">
+    <XFuck />
     <a-table
       bordered
       size="small"
@@ -26,8 +27,13 @@ import { StructArray } from '@wrule/shuji/dist/struct/array';
 import { StructTuple } from '@wrule/shuji/dist/struct/tuple';
 import { StructUnion } from '@wrule/shuji/dist/struct/union';
 
+import XFuck from '@/components/fuck'
+
 @Component({
   name: 'Field',
+  components: {
+    XFuck,
+  },
 })
 export default class Field extends Vue {
   @Prop({
