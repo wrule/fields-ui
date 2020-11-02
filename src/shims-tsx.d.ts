@@ -1,4 +1,6 @@
 import Vue, { VNode } from 'vue'
+import 'vue-tsx-support/enable-check';
+import 'vue-tsx-support/options/allow-unknown-props';
 
 declare global {
   namespace JSX {
