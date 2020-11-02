@@ -1,10 +1,25 @@
 import { Component, Vue, Prop, Watch, Emit } from 'vue-property-decorator';
 import { VNode } from 'vue';
 import style from './table.module.scss'
+import testJson from './test.json';
+import { IJsObj } from '@wrule/shuji/dist/struct/IJsObj';
+import { StructType } from '@wrule/shuji/dist/struct/type';
+import { Struct } from '@wrule/shuji/dist/struct/index';
+import * as FromJS from '@wrule/shuji/dist/struct/fromJs';
+import { StructObject } from '@wrule/shuji/dist/struct/object';
+import { StructArray } from '@wrule/shuji/dist/struct/array';
+import { StructTuple } from '@wrule/shuji/dist/struct/tuple';
+import { StructUnion } from '@wrule/shuji/dist/struct/union';
 
 @Component
 export default class XFuck extends Vue {
   @Prop({ default: 'id' }) private readonly rowKey!: string;
+  @Prop({
+    default() {
+      return FromJS.FromJsHub(testJson as any)
+    }
+  }) private readonly struct!: Struct;
+  @Prop({ default: true }) private readonly showHeader!: boolean;
 
   private get autoColumns() {
     return [
@@ -24,11 +39,12 @@ export default class XFuck extends Vue {
         title: '类型',
         key: 'type',
         dataIndex: 'type',
-        customCell: (record: any) => {
-          return {
-            class: style.editable_td,
-          };
-        },
+        width: 150,
+        // customCell: (record: any) => {
+        //   return {
+        //     class: style.editable_td,
+        //   };
+        // },
         scopedSlots: { customRender: "type" }
       },
       {
@@ -46,26 +62,88 @@ export default class XFuck extends Vue {
         title: '操作',
         key: 'opts',
         dataIndex: 'opts',
+        width: 100,
         scopedSlots: { customRender: "opts" },
       },
     ];
   }
 
-  private get autoList() {
+  /**
+   * 对象结构的字段列表
+   */
+  public get autoListObject() {
+    const object = this.struct as StructObject;
+    return Array.from(object.Fields).map(([name, struct]) => ({
+      name: struct.Desc,
+      type: struct.TsName,
+      struct,
+    }));
+  }
+
+  /**
+   * 数组结构的元素列表
+   */
+  public get autoListArray() {
+    const array = this.struct as StructArray;
     return [
-      { id: '1', name: '1', type: '1', remark: '1' },
-      { id: '2', name: '2', type: '2', remark: '2' },
-      { id: '3', name: '3', type: '3', remark: '3' },
+      {
+        name: array.ElementStruct.Desc,
+        type: array.ElementStruct.TsName,
+        struct: array.ElementStruct,
+      },
     ];
   }
 
-  private getRowExpandIcon(row: any) {
+  /**
+   * 元组结构的元素列表
+   */
+  public get autoListTuple() {
+    const tuple = this.struct as StructTuple;
+    return tuple.ElementsStruct.map((struct) => ({
+      name: struct.Desc,
+      type: struct.TsName,
+      struct,
+    }));
+  }
+
+  /**
+   * 联合结构的成员列表
+   */
+  public get autoListUnion() {
+    const union = this.struct as StructUnion;
+    return union.Members.map((struct) => ({
+      name: struct.Desc,
+      type: struct.TsName,
+      struct,
+    }));
+  }
+
+  /**
+   * 列表数据
+   */
+  public get autoList() {
+    let result: any[] = [];
+    switch (this.struct.Type) {
+      case StructType.Object: result = this.autoListObject; break;
+      case StructType.Array: result = this.autoListArray; break;
+      case StructType.Tuple: result = this.autoListTuple; break;
+      case StructType.Union: result = this.autoListUnion; break;
+      default: result = []; break;
+    }
+    return result.map((item, index) => ({
+      id: index,
+      ...item,
+    }));
+  }
+
+
+  private getRowExpandIcon(data: any) {
     return <div
       class={style.expand_inner}
-      onClick={() => this.handleExpandClick(row)}>
+      onClick={() => this.handleExpandClick(data)}>
       <a-icon
         slot="expandIcon"
-        class={style.expand_icon}
+        class={[style.expand_icon, data.expanded ? style.expanded : '']}
         type="right"
       />
     </div>
@@ -90,34 +168,36 @@ export default class XFuck extends Vue {
 
   public render(): VNode {
     return (
-      <a-table
-        rowKey={this.rowKey}
-        class={style.table}
-        size="small"
-        bordered={true}
-        pagination={false}
-        columns={this.autoColumns}
-        dataSource={this.autoList}
-        expandIcon={this.getRowExpandIcon}
-        expandedRowKeys={this.expandedRowKeys}
-        scopedSlots={{
-          name: (value: any, row: any) => {
-            return <a-input v-model={row.name} />
-          },
-          type: (value: any, row: any) => {
-            return <a-select>
-              <a-select-option key="1">1</a-select-option>
-              <a-select-option key="2">2</a-select-option>
-            </a-select>
-          },
-          remark: (value: any, row: any) => {
-            return <a-input-number v-model={row.remark} />
-          },
-          expandedRowRender: (row: any) => {
-            return <span>{row.name}</span>
-          },
-        }}>
-      </a-table>
+      <div>
+        <a-table
+          rowKey={this.rowKey}
+          showHeader={this.showHeader}
+          class={style.table}
+          size="small"
+          bordered={true}
+          pagination={false}
+          columns={this.autoColumns}
+          dataSource={this.autoList}
+          expandIcon={this.getRowExpandIcon}
+          expandedRowKeys={this.expandedRowKeys}
+          scopedSlots={{
+            name: (value: any, row: any) => {
+              return <a-input v-model={row.name} />;
+            },
+            type: (value: any, row: any) => {
+              return value;
+            },
+            remark: (value: any, row: any) => {
+              return <a-input v-model={row.remark} />;
+            },
+            expandedRowRender: (row: any) => {
+              return <XFuck
+                struct={row.struct}
+              />;
+            },
+          }}>
+        </a-table>
+      </div>
     );
   }
 }
