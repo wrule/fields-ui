@@ -100,14 +100,14 @@
   }
 
   :global(.ant-table-expanded-row) {
-    > td:last-of-type {
-      padding: 0px 0px!important;
-    }
-    :global(.ant-table) {
-      border: none;
-      :global(.ant-table-content) {
-        border-right: none;
-      }
-    }
+    // > td:last-of-type {
+    //   padding: 0px 0px!important;
+    // }
+    // :global(.ant-table) {
+    //   border: none;
+    //   :global(.ant-table-content) {
+    //     border-right: none;
+    //   }
+    // }
   }
 }

@@ -169,6 +169,17 @@ export default class XFuck extends Vue {
   public render(): VNode {
     return (
       <div>
+        <a-descriptions title={`${this.struct.Type}${this.struct.IsBasic ? ' (基本类型)' : '(构造类型)'}`}>
+          <a-descriptions-item label="字段名称">
+            {this.struct.Desc}
+          </a-descriptions-item>
+          <a-descriptions-item label="字段类型">
+            {this.struct.TsName}
+          </a-descriptions-item>
+          <a-descriptions-item label="结构Hash">
+            {this.struct.Hash}
+          </a-descriptions-item>
+        </a-descriptions>
         <a-table
           rowKey={this.rowKey}
           showHeader={this.showHeader}
