@@ -40,9 +40,14 @@ export default class XFuck extends Vue {
             class: style.editable_td,
           };
         },
-        scopedSlots: { customRender: "remark" }
+        scopedSlots: { customRender: "remark" },
       },
-      { title: '操作', key: 'opts', dataIndex: 'opts' },
+      {
+        title: '操作',
+        key: 'opts',
+        dataIndex: 'opts',
+        scopedSlots: { customRender: "opts" },
+      },
     ];
   }
 
