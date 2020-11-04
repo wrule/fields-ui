@@ -180,7 +180,7 @@ export default class XFuck extends Vue {
             {this.struct.Hash}
           </a-descriptions-item>
         </a-descriptions>
-        <a-table
+        {this.struct.IsBasic ? '' : <a-table
           rowKey={this.rowKey}
           showHeader={this.showHeader}
           class={style.table}
@@ -207,7 +207,7 @@ export default class XFuck extends Vue {
               />;
             },
           }}>
-        </a-table>
+        </a-table>}
       </div>
     );
   }
